@@ -22,12 +22,15 @@ public func configure(
     //注册数据库
     try services.register(FluentMySQLProvider())
     
+    //通过模型创建数据库表
+    var migrations = MigrationConfig()
+    migrations.add(model: User.self, database: .mysql)
+    services.register(migrations)
+    
     //初始化databaseconfig
     var databases = DatabaseConfig()
-    let dbconfig = MySQLDatabaseConfig.init(hostname: "bllgo.com", port: 3306, username: "root", password: "wx787169", database: "banMcc")
+    let dbconfig = MySQLDatabaseConfig.init(hostname: "bllgo.com", port: 3306, username: "root", password: "wx787169", database: "cmbBanMcc")
     databases.add(database: MySQLDatabase(config: dbconfig), as: .mysql)  //添加数据库
     services.register(databases)
-    //通过模型创建数据库表
-    let migrations = MigrationConfig()
-    services.register(migrations)
+    
 }
